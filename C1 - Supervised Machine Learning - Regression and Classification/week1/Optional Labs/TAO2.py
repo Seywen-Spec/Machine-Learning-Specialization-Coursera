@@ -1,7 +1,7 @@
 import math, copy
 import numpy as np
 import matplotlib.pyplot as plt
-#plt.style.use('./damn.mplstyle')
+
 from lab_utils_uni import plt_house_x, plt_contour_wgrad, plt_divergence, plt_gradients
 
 
@@ -114,9 +114,30 @@ theta_final, theta0_final, J_hist, h_hist = gradient_descent(x_train ,y_train, t
                                                     iterations, compute_cost, compute_gradient)
 
 print(f"(w,b) found by gradient descent: ({theta_final:8.4f},{theta0_final:8.4f})") 
+
+# plot cost versus iteration  
+fig, (ax1, ax2) = plt.subplots(1, 2, constrained_layout=True, figsize=(12,4))
+ax1.plot(J_hist[:100])
+ax2.plot(1000 + np.arange(len(J_hist[1000:])), J_hist[1000:])
+ax1.set_title("Cost vs. iteration(start)");  ax2.set_title("Cost vs. iteration (end)")
+ax1.set_ylabel('Cost')            ;  ax2.set_ylabel('Cost') 
+ax1.set_xlabel('iteration step')  ;  ax2.set_xlabel('iteration step') 
+plt.show()
+
+print(f"1000 sqft house prediction {theta_final*1.0 + theta0_init:0.1f} Thousand dollars")
+print(f"1200 sqft house prediction {theta_final*1.2 + theta0_final:0.1f} Thousand dollars")
+print(f"2000 sqft house prediction {theta_final*2.0 + theta0_final:0.1f} Thousand dollars")
+    
+fig, ax = plt.subplots(1,1, figsize=(12, 6))
+plt_contour_wgrad(x_train, y_train, h_hist, ax)
+
+fig, ax = plt.subplots(1,1, figsize=(12, 4))
+plt_contour_wgrad(x_train, y_train, h_hist, ax, w_range=[180, 220, 0.5], b_range=[80, 120, 0.5],
+            contours=[1,5,10,20],resolution=0.5)
     
     
-    
+plt_divergence(h_hist, J_hist,x_train, y_train)
+plt.show()
     
     
     
