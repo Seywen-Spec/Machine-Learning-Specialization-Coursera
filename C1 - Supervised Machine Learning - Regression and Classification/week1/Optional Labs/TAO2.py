@@ -6,7 +6,7 @@ from lab_utils_uni import plt_house_x, plt_contour_wgrad, plt_divergence, plt_gr
 
 
 #Load our dataset
-x_train = np.array(p[1.0, 2.0])
+x_train = np.array([1.0, 2.0])
 y_train = np.array([300.0, 500.0])
 
 #Function to calculate cost function J
