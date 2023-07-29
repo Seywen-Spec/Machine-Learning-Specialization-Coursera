@@ -41,7 +41,7 @@ theta = linear_model.coef_
 print(f"theta = {theta:}, theta0 = {theta0:0.2f}")
 
 print(f"Prediction on training set:\n {linear_model.predict(X_train)[:4]}" )
-print(f"prediction using w,b:\n {(X_train @ w + b)[:4]}")
+print(f"prediction using w,b:\n {(X_train @ theta + theta0)[:4]}")
 print(f"Target values \n {y_train[:4]}")
 
 x_house = np.array([1200, 3,1, 40]).reshape(-1,4)
