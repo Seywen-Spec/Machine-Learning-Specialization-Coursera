@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from keras.layers import Dense
 from keras import Sequential
-from lab_utils_common import dlc
+from lab_utils_common import dlc, sigmoid
 from lab_coffee_utils import load_coffee_data, plt_roast, plt_prob, plt_layer, plt_network, plt_output_unit
 import logging
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
@@ -29,7 +29,7 @@ Xt = np.tile(Xn,(1000,1))
 Yt= np.tile(Y,(1000,1))   
 print(Xt.shape, Yt.shape)   
 
-
+################################
 #Tensorflow model
 tf.random.set_seed(1234)  #a[pplied to achieve consistent results
 model = Sequential([
@@ -101,3 +101,78 @@ print(f"decisions = \n{yhat}")
 
 yhat = (predictions >= 0.5).astype(int)
 print(f"decisions = \n{yhat}")
+
+
+
+
+
+########################################
+#Raw Technique
+def my_dense(a_in, theta, theta0, g):
+    """Computes dense layer
+
+    Args:
+        a_in (ndarray(n, )): Data, 1 example
+        Theta (ndarray(n,j)): Weight matrix, n features per unit, j units 
+        theta0 (ndarray(j, )): bias vector, j units
+        g (func): activation function
+    
+    Returns:
+        a_out (ndarray (j, )) : j units
+    """
+    
+    units = theta.shape[1]
+    a_out = np.zeros(units)
+    for j in range(units):
+        theta = theta[:,j]
+        z = np.dot(theta, a_in) + theta0[j]
+        a_out[j] = g(z)
+    return a_out
+
+def my_sequential(x, theta1, theta01, theta2, theta02):
+    a1 = my_dense(x,  theta1, theta01, sigmoid)
+    a2 = my_dense(a1, theta2, theta02, sigmoid)
+    return(a2)
+
+
+#Data implimentation
+theta1_tmp = np.array( [[-8.93,  0.29, 12.9 ], [-0.1,  -7.32, 10.81]] )
+theta01_tmp = np.array( [-9.82, -9.28,  0.96] )
+theta2_tmp = np.array( [[-31.18], [-27.59], [-32.56]] )
+theta02_tmp = np.array( [15.41] )
+
+
+
+
+def my_predict(X, theta1, theta01, theta2, theta02):
+    m = X.shape[0]
+    p = np.zeros((m, 1))
+    for i in range(m):
+        p[i,0] = my_sequential(X[i], theta1, theta01, theta2, theta02)
+    return (p)
+
+
+     
+X_tst = np.array([
+    [200,13.9],  # postive example
+    [200,17]])   # negative example
+X_tstn = norm_l(X_tst)  # remember to normalize
+predictions = my_predict(X_tstn, theta1_tmp, theta01_tmp, theta2_tmp, theta02_tmp)
+
+
+
+yhat = np.zeros_like(predictions)
+for i in range(len(predictions)):
+    if predictions[i] >= 0.5:
+        yhat[i] = 1
+    else:
+        yhat[i] = 0
+print(f"decisions = \n{yhat}")
+
+yhat = (predictions >= 0.5).astype(int)
+print(f"decisions = \n{yhat}")
+
+
+
+netf= lambda x : my_predict(norm_l(x),theta1_tmp, theta01_tmp, theta2_tmp, theta02_tmp)
+plt_network(X,Y,netf)
