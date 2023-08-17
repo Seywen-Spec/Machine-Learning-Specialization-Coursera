@@ -79,7 +79,7 @@ J = cofi_cost_func(X_r, W_r, b_r, Y_r, R_r, 1.5)
 print(f"Cost (with regularization): {J:0.2f}") #when lambda is equal to 1.5 (28.09)
 
 
-def cofi_cost_func_v(X, W, b, Y, R, lambda_):
+def cofi_cost_func_v(X, W, b, Y, R, lambda_): #Vectorized implimentation
     """
     Returns the cost for the content-based filtering
     Vectorized for speed. Uses tensorflow operations to be compatible with custom training loop.
