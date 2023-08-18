@@ -1,5 +1,5 @@
-from tensorflow.keras.activations import relu, linear
-from tensorflow.keras.layers import Dense
+from keras.activations import relu, linear
+from keras.layers import Dense
 
 import numpy as np
 
