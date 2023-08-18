@@ -104,8 +104,6 @@ model.evaluate([user_test[:, u_s:], item_test[:, i_s:]], ynorm_test)
 
 
 
-
-
 new_user_id = 5000
 new_rating_ave = 1.0
 new_action = 1.0
@@ -207,6 +205,6 @@ for i in range(count):
                   movie_dict[movie2_id]['title'], genre2]
                )
 table = tabulate.tabulate(disp, tablefmt='html', headers="firstrow", floatfmt=[".1f", ".1f", ".0f", ".2f", ".2f"])
-table
+print(table)
 
 
