@@ -114,7 +114,7 @@ my_ratings = np.zeros(num_movies)          #  Initialize my ratings
 my_ratings[2700] = 5 
 
 #Or suppose you did not enjoy Persuasion (2007), you can set
-my_ratings[2609] = 2;
+my_ratings[2609] = 2
 
 # We have selected a few movies we liked / did not like and the ratings we
 # gave are as follows:
@@ -156,7 +156,7 @@ W = tf.Variable(tf.random.normal((num_users,  num_features),dtype=tf.float64),  
 X = tf.Variable(tf.random.normal((num_movies, num_features),dtype=tf.float64),  name='X')
 b = tf.Variable(tf.random.normal((1,          num_users),   dtype=tf.float64),  name='b')
 
-# Instantiate an optimizer.
+# Instantiate an optimizer
 optimizer = keras.optimizers.Adam(learning_rate=1e-1)
 
 iterations = 200
